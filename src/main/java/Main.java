@@ -13,11 +13,12 @@ public class Main {
         Connection connection = DriverManager.getConnection(url, props);
 
         PreparedStatement stat = connection.prepareStatement(
-                "INSERT INTO tasks (name,text, date_time) VALUES " +
-                        "(?, ?, ?)");
-        stat.setString(1, "TaskName " + LocalDateTime.now().toString());
-        stat.setString(2, "TaskText");
-        stat.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+                "INSERT INTO tasks (name, description, notification, contacts) VALUES " +
+                        "(?, ?, ?, ?)");
+        stat.setString(1, "TaskName");
+        stat.setString(2, "Description");
+        stat.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now().plusDays(1)));
+        stat.setString(4, "Contacts");
         stat.execute();
     }
 }
