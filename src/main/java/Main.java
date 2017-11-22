@@ -4,16 +4,13 @@ import java.util.Properties;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-        Authentication authentication = new Authentication("target\\classes\\postgreslogin.xml");
+        Authentication authentication = new Authentication("postgreslogin.xml");
         String url = authentication.getDatabaseURL();
         Properties props = new Properties();
         props.setProperty("user", authentication.getLogin());
         props.setProperty("password", authentication.getPassword());
         props.setProperty("ssl", "false");
         Connection connection = DriverManager.getConnection(url, props);
-
-//        String url = "jdbc:postgresql://localhost/test?user=fred&password=secret&ssl=true";
-//        Connection conn = DriverManager.getConnection(url);
 
         PreparedStatement stat = connection.prepareStatement(
                 "INSERT INTO tasks (name,text, date_time) VALUES " +
