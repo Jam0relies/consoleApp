@@ -4,10 +4,11 @@ import java.util.Properties;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-        String url = "jdbc:postgresql://localhost/tasktests";
+        Authentication authentication = new Authentication("target\\classes\\postgreslogin.xml");
+        String url = authentication.getDatabaseURL();
         Properties props = new Properties();
-        props.setProperty("user", "tasktester");
-        props.setProperty("password", "123456");
+        props.setProperty("user", authentication.getLogin());
+        props.setProperty("password", authentication.getPassword());
         props.setProperty("ssl", "false");
         Connection connection = DriverManager.getConnection(url, props);
 

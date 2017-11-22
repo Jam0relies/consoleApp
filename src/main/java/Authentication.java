@@ -20,7 +20,7 @@ public class Authentication {
             XPath xPath = XPathFactory.newInstance().newXPath();
             databaseURL = xPath.evaluate("/authentification/databaseURL/text()", document);
             login = xPath.evaluate("/authentification/login/text()", document);
-            password = xPath.evaluate("/authentification/login/text()", document);
+            password = xPath.evaluate("/authentification/password/text()", document);
         } catch (ParserConfigurationException | IOException | SAXException | XPathExpressionException e) {
             System.err.println(e.getMessage());
         }
