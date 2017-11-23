@@ -1,24 +1,30 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.Properties;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, IOException {
         Authentication authentication = new Authentication("postgreslogin.xml");
         String url = authentication.getDatabaseURL();
         Properties props = new Properties();
         props.setProperty("user", authentication.getLogin());
         props.setProperty("password", authentication.getPassword());
         props.setProperty("ssl", "false");
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        if (classLoader == null) {
+            classLoader = Class.class.getClassLoader();
+        }
+        BufferedReader stream =
+                new BufferedReader(new InputStreamReader(classLoader.getResourceAsStream("query.sql")));
+        StringBuilder queryBuilder = new StringBuilder();
+        while (stream.ready()) {
+            queryBuilder.append(stream.readLine());
+        }
         Connection connection = DriverManager.getConnection(url, props);
+        Statement statement = connection.createStatement();
+        statement.execute(queryBuilder.toString());
 
-        PreparedStatement stat = connection.prepareStatement(
-                "INSERT INTO tasks (name, description, notification, contacts) VALUES " +
-                        "(?, ?, ?, ?)");
-        stat.setString(1, "TaskName");
-        stat.setString(2, "Description");
-        stat.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now().plusDays(1)));
-        stat.setString(4, "Contacts");
-        stat.execute();
     }
 }
