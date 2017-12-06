@@ -1,5 +1,0 @@
-<authentification>
-    <databaseURL>jdbc:postgresql://localhost/tasktests</databaseURL>
-    <login>tasktester</login>
-    <password>123456</password>
-</authentification>
