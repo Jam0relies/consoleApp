@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -39,8 +40,13 @@ public class TaskService {
     }
 
     //Метод jdbcTemplate.update используется для вставки, удаления и обновления
-    public void createTask(Task tasks) {
+    public void createTask(Task task) {
         String sql = "INSERT INTO tasks (name, description, notification, contacts) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, tasks.getName(), tasks.getDescription(), tasks.getNotification(), tasks.getContacts());
+        jdbcTemplate.update(sql, task.getName(), task.getDescription(), task.getNotification(), task.getContacts());
+    }
+
+    public void deleteTask(Task task){
+        String sql = "DELETE FROM tasks WHERE name=? AND description=? AND notification=? AND contacts =?";
+        jdbcTemplate.update(sql, task.getName(), task.getDescription(), task.getNotification(), task.getContacts());
     }
 }
